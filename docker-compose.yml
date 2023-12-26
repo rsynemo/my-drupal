@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  drupal:
+    build: .
+    ports:
+      - "8080:9000"
+    volumes:
+      - ./modules:/var/www/html/modules
+      - ./themes:/var/www/html/themes
+      - ./sites:/var/www/html/sites
+      - ./my_drupal_site:/var/www/html
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: drupal
+      MYSQL_PASSWORD: drupalpassword
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
+  my_drupal_site:
